@@ -1,23 +1,23 @@
 const { Octokit } = require("@octokit/rest");
-const  DateDiff = require('date-diff');
+const DateDiff = require('date-diff');
 const octokit = new Octokit();
 
-var myArgs = process.argv.slice(2);
+const myArgs = process.argv.slice(2);
 
 const branch = myArgs[0];
 console.log('getting the stats for ', branch);
 
-var myPulls = [];
-var PullRequest = function (id, branch) {
+let myPulls = [];
+let PullRequest = function (id, branch) {
     this.id = id;
     this.branch = branch;
 };
 
-var Commit = function (sha, date) {
+let Commit = function (sha, date) {
     this.sha = sha;
     this.date = date;
 };
-var myCommits = [];
+let myCommits = [];
 
 octokit.pulls.list({
     owner: "pashmelkin",
