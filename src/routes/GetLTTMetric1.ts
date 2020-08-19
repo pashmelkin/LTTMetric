@@ -1,23 +1,26 @@
+import {GetPullRequestNumber} from "../middleware/GetPullRequestNumber";
+
 const { Octokit } = require("@octokit/rest");
 const DateDiff = require('date-diff');
+
+import {PullRequest} from "../models/PullRequest";
+import {Commit} from "../models/Commit";
 const octokit = new Octokit();
 
 const myArgs = process.argv.slice(2);
 
 const branch = myArgs[0];
+if(branch === undefined) {
+    console.error("No branch parameter specified");
+    process.exit(400);
+}
 console.log('getting the stats for ', branch);
 
-let myPulls = [];
-let PullRequest = function (id, branch) {
-    this.id = id;
-    this.branch = branch;
-};
+let myPulls: PullRequest[] ;
+let myCommits: Commit[];
 
-let Commit = function (sha, date) {
-    this.sha = sha;
-    this.date = date;
-};
-let myCommits = [];
+let pr = GetPullRequestNumber("pashmelkin", "vegetableApp", branch);
+console.log(pr);
 
 octokit.pulls.list({
     owner: "pashmelkin",
