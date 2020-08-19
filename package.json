@@ -1,0 +1,15 @@
+{
+  "name": "gitmetrics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^18.0.3",
+    "date-diff": "^0.2.2"
+  }
+}
