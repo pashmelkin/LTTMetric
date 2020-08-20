@@ -12,20 +12,16 @@ class GetLTTControlller {
 
     get = async (request: express.Request, response: express.Response) => {
         let myCommits: Commit[];
+        let prID: number;
 
         //let prs = await GetPullRequestNumber("pashmelkin", "vegetableApp", "FixUnitTests2");
         let prs = await GetPullRequestNumber("MYOB-Technology", "payday", "leo-223-serialize-javascript");
-
-        if(prs.length > 1) {
-            console.log("more then one PR is found: ", prs.length);
-            prs.forEach(pr => {
-                console.log(pr);
-            });
-            response.send("Error, contact customer service.");
+        if(prs.error != "") {
+            response.send(prs.error);
         }
+        prID = prs.myPulls[0].id;
 
-
-        response.send(`Hello, your PR is ${prs[0].id}`);
+        response.send(`Hello, your PR is ${prID}`);
     }
 
 }
