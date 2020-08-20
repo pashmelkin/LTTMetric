@@ -3,7 +3,6 @@ const { Octokit } = require("@octokit/rest");
 
 let config: Config = require('../config.json');
 
-console.log(config.authtoken);
 const octokit = new Octokit({
     auth: config.authtoken
 });

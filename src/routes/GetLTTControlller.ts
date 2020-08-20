@@ -1,6 +1,7 @@
 import * as express from 'express';
-import {Commit} from "../models/Commit";
 import {GetPullRequestNumber} from "../middleware/GetPullRequestNumber";
+import {Config} from "../models/iConfig";
+import {GetDateDifference} from "../middleware/GetDateDifference";
 
 class GetLTTControlller {
     public path = '/GetLTT';
@@ -11,17 +12,19 @@ class GetLTTControlller {
     }
 
     get = async (request: express.Request, response: express.Response) => {
-        let myCommits: Commit[];
+
         let prID: number;
+        let config: Config = require('../config.json');
 
         //let prs = await GetPullRequestNumber("pashmelkin", "vegetableApp", "FixUnitTests2");
-        let prs = await GetPullRequestNumber("MYOB-Technology", "payday", "leo-223-serialize-javascript");
-        if(prs.error != "") {
-            response.send(prs.error);
+        let {myPulls, error} = await GetPullRequestNumber(config.owner, "payday", "leo-223-serialize-javascript");
+        if(error != "") {
+            response.send(error);
         }
-        prID = prs.myPulls[0].id;
+        prID = myPulls[0].id;
+        let timeDiff  = await GetDateDifference(config.owner, "payday", prID);
+        response.send(timeDiff);
 
-        response.send(`Hello, your PR is ${prID}`);
     }
 
 }
