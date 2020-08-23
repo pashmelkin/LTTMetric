@@ -1,0 +1,67 @@
+# This is an example of a deployment - a declaration of pods.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "gitmetrics-bff"
+  labels:
+    app: "gitmetrics-bff"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "gitmetrics-bff"
+  template:
+    metadata:
+      labels:
+        app: "gitmetrics-bff"
+      annotations:
+        update: "gitmetrics-bff"
+    spec:
+      containers:
+        - image: "599331037720.dkr.ecr.ap-southeast-2.amazonaws.com/lttmetric-bff:latest"
+          name: gitmetrics-bff
+          ports:
+            - containerPort: 3001
+          resources:
+           limits:
+             memory: "400Mi"
+           requests:
+             memory: "400Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+  labels:
+    app: "gitmetrics-bff"
+  name: "gitmetrics-bff-service"
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: "gitmetrics-bff"
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    "kubernetes.io/tls-acme": "true"
+  name: "gitmetrics-bff-ingress"
+spec:
+  rules:
+    - host: "gitmetrics-bff.svc.platform.myobdev.com"
+      http:
+        paths:
+          - backend:
+              serviceName: "gitmetrics-bff-service"
+              servicePort: 5000
+            path: /
+  tls:
+    - hosts:
+        - "gitmetrics-bff.svc.platform.myobdev.com"
+      secretName: "gitmetrics-bff-tls"
