@@ -15,8 +15,9 @@ class GetLTTControlller {
 
         let prID: number;
         let config: Config = require('../config.json');
+        const branch = (request.query.branch  ?? "NZPR-1116-setHolidayPay") as string;
 
-        let {myPulls, error} = await GetPullRequestNumber(config.owner, "sme-web", "NZPR-1116-setHolidayPay");
+        let {myPulls, error} = await GetPullRequestNumber(config.owner, "sme-web", branch);
         if(error != "") {
             response.send(error);
         }
