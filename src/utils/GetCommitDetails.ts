@@ -4,7 +4,7 @@ const { Octokit } = require("@octokit/rest");
 let config: Config = require('../config.json');
 
 const octokit = new Octokit({
-    auth: config.authtoken
+    auth: config.GitToken
 });
 
 export async function GetCommitDetails (owner: string, repo: string, pull_number: number) {

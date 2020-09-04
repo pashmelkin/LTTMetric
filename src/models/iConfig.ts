@@ -1,6 +1,7 @@
 export interface Config
 {
-    authtoken: string;
+    GitToken: string;
     port: number;
     owner: string;
+    AzureToken: string;
 }
