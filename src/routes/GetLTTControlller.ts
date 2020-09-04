@@ -17,12 +17,12 @@ class GetLTTControlller {
         let config: Config = require('../config.json');
 
         //let prs = await GetPullRequestNumber("pashmelkin", "vegetableApp", "FixUnitTests2");
-        let {myPulls, error} = await GetPullRequestNumber(config.owner, "payday", "leo-223-serialize-javascript");
+        let {myPulls, error} = await GetPullRequestNumber(config.owner, "sme-web", "NZPR-1116-setHolidayPay");
         if(error != "") {
             response.send(error);
         }
         prID = myPulls[0].id;
-        let timeDiff  = await GetDateDifference(config.owner, "payday", prID);
+        let timeDiff  = await GetDateDifference(config.owner, "sme-web", prID);
         response.send(timeDiff);
 
     }
