@@ -13,6 +13,5 @@ export async function GetCommitDetails (owner: string, repo: string, pull_number
         repo: repo,
         pull_number: pull_number
     });
-    console.log(res.status);
     return res.data;
-};
+}
