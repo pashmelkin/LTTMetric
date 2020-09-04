@@ -16,14 +16,16 @@ class GetLTTControlller {
         let prID: number;
         let config: Config = require('../config.json');
 
-        //let prs = await GetPullRequestNumber("pashmelkin", "vegetableApp", "FixUnitTests2");
-        let {myPulls, error} = await GetPullRequestNumber(config.owner, "payday", "leo-223-serialize-javascript");
+        let {myPulls, error} = await GetPullRequestNumber(config.owner, "sme-web", "NZPR-1116-setHolidayPay");
         if(error != "") {
             response.send(error);
         }
+
         prID = myPulls[0].id;
-        let timeDiff  = await GetDateDifference(config.owner, "payday", prID);
-        response.send(timeDiff);
+        let mergeCommitId = myPulls[0].merge_commit_sha;
+
+        let timeDiff  = await GetDateDifference(config.owner, "sme-web", prID);
+        response.send({"time" : timeDiff, "commit": mergeCommitId});
 
     }
 
