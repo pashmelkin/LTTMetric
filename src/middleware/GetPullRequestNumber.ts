@@ -10,7 +10,6 @@ export async function GetPullRequestNumber(owner: string, repo: string, branch: 
 
         if (pr.base.ref === "master" && pr.head.ref === branch) {
             myPulls.push(new PullRequest(pr.number, pr.head.ref, pr.merge_commit_sha));
-            console.log(pr);
         }
     });
     if(myPulls.length > 1) {
