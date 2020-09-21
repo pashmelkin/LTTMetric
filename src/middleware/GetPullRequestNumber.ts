@@ -6,9 +6,9 @@ export async function GetPullRequestNumber(owner: string, repo: string, cardId: 
     let error: string = "";
 
     let prs = await GetPullRequestsAsync(owner, repo, "closed");
-    prs.data.forEach(pr => {
 
-        if (pr.base.ref === "master" && pr.head.ref.toLowerCase().startsWith(cardId.toLowerCase() )) {
+    prs.data.forEach(pr => {
+        if (pr.base.ref === "master" && pr.head.ref.toLowerCase().includes(cardId.toLowerCase() )) {
             myPulls.push(new PullRequest(pr.number, pr.head.ref, pr.merge_commit_sha));
         }
     });
@@ -17,7 +17,10 @@ export async function GetPullRequestNumber(owner: string, repo: string, cardId: 
         myPulls.forEach(pr => {
             console.log(pr);
         });
-        error = "Error, contact customer service.";
+        error = "Error, more then one PR is found.";
+    } else if (myPulls.length == 0) {
+        error = "Error, no Pull request found for " + cardId;
+        console.log(error);
     }
     return {myPulls, error} ;
 }
