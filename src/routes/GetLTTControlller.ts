@@ -39,8 +39,10 @@ class GetLTTControlller {
 
         prID = myPulls[0].id;
         let mergeCommitId = myPulls[0].merge_commit_sha;
-        console.log(mergeCommitId);
         let dates  = await GetCommitDate(this.config.owner, "sme-web", prID);
+
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         response.send({PRcommits : dates,
                              mergeCommitId : mergeCommitId});
 
