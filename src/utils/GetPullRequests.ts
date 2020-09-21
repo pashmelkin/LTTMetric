@@ -11,6 +11,7 @@ export async function GetPullRequestsAsync(owner: string, repo: string, state: s
     return await octokit.pulls.list({
         owner: owner,
         repo: repo,
-        state: state
+        state: state,
+        per_page: 100
     })
-};
+}
