@@ -17,8 +17,6 @@ export async function GetPullRequests(owner: string, repo: string, branchPattern
         error = "Error, no Pull request found for " + branchPattern;
         console.log(error);
     }
-     console.log("++++++++++++++++++++++++++++++");
-     myPulls.forEach(p => console.log(p));
 
     return {myPulls, error} ;
 }
