@@ -1,5 +1,5 @@
 import * as express from 'express';
-import {GetPullRequestNumber} from "../middleware/GetPullRequestNumber";
+import {GetPullRequests} from "../middleware/GetPullRequests";
 import {Config} from "../models/iConfig";
 //import {GetDateDifference} from "../middleware/GetDateDifference";
 import {GetCommitDate} from "../middleware/GetCommitDate";
@@ -30,7 +30,7 @@ class GetLTTControlller {
         const branch = (request.query.branch  ?? "nzpr") as string;
 
 
-        let {myPulls, error} = await GetPullRequestNumber(this.config.owner, "sme-web", branch);
+        let {myPulls, error} = await GetPullRequests(this.config.owner, "sme-web", branch);
 
         if(error != "") {
             response.send(error);

@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var GetPullRequestNumber_1 = require("../middleware/GetPullRequestNumber");
+var GetPullRequestNumber_1 = require("../middleware/GetPullRequests");
 var Octokit = require("@octokit/rest").Octokit;
 var DateDiff = require('date-diff');
 var PullRequest_1 = require("../models/PullRequest");
@@ -15,7 +15,7 @@ if (branch === undefined) {
 console.log('getting the stats for ', branch);
 var myPulls;
 var myCommits;
-var pr = GetPullRequestNumber_1.GetPullRequestNumber("pashmelkin", "vegetableApp", branch);
+var pr = GetPullRequestNumber_1.GetPullRequests("pashmelkin", "vegetableApp", branch);
 console.log(pr);
 octokit.pulls.list({
     owner: "pashmelkin",
