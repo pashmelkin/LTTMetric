@@ -3,11 +3,11 @@
 export class PullRequest {
     id: number;
     title: string;
-    merged_at: string;
+    merged_at: Date;
     branch: string;
     merge_commit_sha: string;
 
-    constructor(id: number, title: string, merged_at: string, branch: string, sha: string) {
+    constructor(id: number, title: string, merged_at: Date, branch: string, sha: string) {
         this.id = id;
         this.title = title;
         this.merged_at = merged_at;
