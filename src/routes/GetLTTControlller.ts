@@ -3,6 +3,7 @@ import {GetPullRequests} from "../middleware/GetPullRequests";
 import {Config} from "../models/iConfig";
 //import {GetDateDifference} from "../middleware/GetDateDifference";
 import {GetCommitDate} from "../middleware/GetCommitDate";
+import {PRequestsResponse} from "../models/PRequestsResponse";
 
 class GetLTTControlller {
     public path = '/GetLTT';
@@ -26,6 +27,10 @@ class GetLTTControlller {
     get = async (request: express.Request, response: express.Response) => {
 
         let prID: number;
+        let result: PRequestsResponse[] = [];
+        let title = "";
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         const branch = (request.query.branch  ?? "nzpr") as string;
 
@@ -38,13 +43,12 @@ class GetLTTControlller {
         }
 
         prID = myPulls[0].id;
+        title = myPulls[0].title;
         let mergeCommitId = myPulls[0].merge_commit_sha;
-        let dates  = await GetCommitDate(this.config.owner, "sme-web", prID);
+        let commits  = await GetCommitDate(this.config.owner, "sme-web", prID);
+        result.push(new PRequestsResponse(title, commits, mergeCommitId));
 
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.send({PRcommits : dates,
-                             mergeCommitId : mergeCommitId});
+        response.send(result);
 
     }
 
