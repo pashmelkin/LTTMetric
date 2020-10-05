@@ -16,6 +16,9 @@ class GetPRControlller {
     get = async (request: express.Request, response: express.Response) => {
 
         let result: PRequestsResponse[] = [];
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
         let {myPulls, error} = await GetPullRequests(this.config.owner, "sme-web");
 
         if(error != "") {
@@ -28,9 +31,6 @@ class GetPRControlller {
             result.push ( new PRequestsResponse ( pr.title, dates , pr.merge_commit_sha ) );
         }
 
-
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         response.send(result);
 
