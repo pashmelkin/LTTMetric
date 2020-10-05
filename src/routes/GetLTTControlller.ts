@@ -28,7 +28,7 @@ class GetLTTControlller {
 
         let prID: number;
         let result: PRequestsResponse[] = [];
-        let title = "";
+        let title: string;
         response.header("Access-Control-Allow-Origin", "*");
         response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
