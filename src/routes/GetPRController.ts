@@ -4,7 +4,7 @@ import {Config} from "../models/iConfig";
 import {GetCommitDate} from "../middleware/GetCommitDate";
 import {PRequestsResponse} from "../models/PRequestsResponse";
 
-class GetPRControlller {
+class GetPRController {
     public path = '/GetPR';
     public router = express.Router();
     public config: Config = require('../config.json');
@@ -37,4 +37,4 @@ class GetPRControlller {
     }
 }
 
-export default GetPRControlller;
+export default GetPRController;

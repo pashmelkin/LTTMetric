@@ -1,14 +1,14 @@
 import App from './app'
 import GetLTTControlller from './routes/GetLTTControlller';
 import {Config} from "./models/iConfig";
-import GetPRControlller from "./routes/GetPRControlller";
+import GetPRController from "./routes/GetPRController";
 
 let config: Config = require('./config.json');
 
 const app = new App(
     [
         new GetLTTControlller(),
-        new GetPRControlller(),
+        new GetPRController(),
     ],
     config.port,
 );
