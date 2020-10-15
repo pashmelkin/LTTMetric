@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "allowJs": true,
-    "target": "es5",
+    "allowJs": false,
+    "target": "es6",
     "esModuleInterop": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "./src/*"],
   "exclude": [
     "node_modules"
   ]

@@ -5,6 +5,8 @@ export async function GetPullRequests(owner: string, repo: string, branchPattern
     let myPulls: PullRequest[] = [];
     let error: string = "";
 
+    console.log("++++++++++++++++++++=real function");
+
     let prs = await GetPullRequestsAsync(owner, repo, "closed", 10);
 
     prs.data.forEach(pr => {
@@ -20,3 +22,5 @@ export async function GetPullRequests(owner: string, repo: string, branchPattern
 
     return {myPulls, error} ;
 }
+
+module.exports = { GetPullRequests };

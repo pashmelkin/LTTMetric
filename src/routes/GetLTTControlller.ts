@@ -34,7 +34,6 @@ class GetLTTControlller {
 
         const branch = (request.query.branch  ?? "nzpr") as string;
 
-
         let {myPulls, error} = await GetPullRequests(this.config.owner, "sme-web", branch);
 
         if(error != "") {
