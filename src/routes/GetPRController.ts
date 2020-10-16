@@ -1,8 +1,6 @@
 import * as express from 'express';
-import {GetPullRequests} from "../middleware/GetPullRequests";
-import * as  PRService  from "../middleware/GetPullRequests";
-import {Config} from "../models/iConfig";
-import {GetCommitDate} from "../middleware/GetCommitDate";
+import middleware from "../middleware/middleware";
+import {Config} from "../models/interfaces/iConfig";
 import {PRequestsResponse} from "../models/PRequestsResponse";
 
 class GetPRController {
@@ -20,7 +18,7 @@ class GetPRController {
         response.header("Access-Control-Allow-Origin", "*");
         response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        let {myPulls, error} = await PRService.GetPullRequests(this.config.owner, "sme-web");
+        let {myPulls, error} = await middleware.GetPullRequests(this.config.owner, "sme-web", "");
 
         console.log("error", error);
         if(error != "") {
@@ -29,7 +27,7 @@ class GetPRController {
         }
 
         for (const pr of myPulls) {
-            const dates = await GetCommitDate ( this.config.owner , "sme-web" , pr.id );
+            const dates = await middleware.GetCommitDate ( this.config.owner , "sme-web" , pr.id );
             result.push ( new PRequestsResponse ( pr.title, dates , pr.merge_commit_sha ) );
         }
 

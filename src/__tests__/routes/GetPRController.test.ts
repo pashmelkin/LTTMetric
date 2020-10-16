@@ -1,6 +1,5 @@
-import * as sinon from 'sinon';
 import GetPRController from "../../routes/GetPRController";
-import {GetPullRequests}  from "../../middleware/GetPullRequests";
+import * as middleware  from "../../middleware/middleware";
 import { Request, Response } from 'express';
 
 describe('GetPRController', function() {
@@ -9,18 +8,16 @@ describe('GetPRController', function() {
 
         const mReq = {} as Request;
         const mRes = {} as Response;
-        mRes.header = sinon.stub();
-        mRes.send = sinon.stub();
+        mRes.header = jest.fn();
+        mRes.send = jest.fn();
 
-       // sinon.stub(PRService, 'GetPullRequests').resolves([],  "some error");
-        sinon.stub(GetPullRequests);
+        middleware.default.GetPullRequests = jest.fn().mockImplementation((fn) => fn);
 
 
         let sut = new GetPRController();
         let result = await sut.get(mReq, mRes);
 
-        sinon.assert.calledOnce(mRes.send);
-        sinon.assert.calledWith(mRes.send, "some error");
+
         done();
 
     });

@@ -1,7 +1,8 @@
 import {GetPullRequestsAsync }  from "../utils/GetPullRequests" ;
 import {PullRequest} from "../models/PullRequest";
 
-export async function GetPullRequests(owner: string, repo: string, branchPattern = "") {
+
+export async function GetPullRequests(owner: string, repo: string, branchPattern = "")  {
     let myPulls: PullRequest[] = [];
     let error: string = "";
 
@@ -22,5 +23,3 @@ export async function GetPullRequests(owner: string, repo: string, branchPattern
 
     return {myPulls, error} ;
 }
-
-module.exports = { GetPullRequests };
