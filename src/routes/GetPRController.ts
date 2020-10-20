@@ -20,7 +20,6 @@ class GetPRController {
 
         let {myPulls, error} = await Middleware.GetPullRequests(this.config.owner, "sme-web", "");
 
-        console.log("error", error);
         if(error != "") {
             response.send(error);
             return;
