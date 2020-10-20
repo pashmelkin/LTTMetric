@@ -9,9 +9,9 @@ interface IMiddleware {
 };
 
 
-const middleware: IMiddleware = {
+const Middleware: IMiddleware = {
     GetPullRequests: GetPullRequests,
     GetCommitDate: GetCommitDate
 };
 
-export default middleware;
+export default Middleware;

@@ -1,5 +1,5 @@
 import GetPRController from "../../routes/GetPRController";
-import * as middleware  from "../../middleware/middleware";
+import * as middleware  from "../../middleware/Middleware";
 import { Request, Response } from 'express';
 
 describe('GetPRController', function() {
