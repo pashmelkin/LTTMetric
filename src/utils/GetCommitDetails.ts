@@ -1,4 +1,4 @@
-import {Config} from "../models/iConfig";
+import {Config} from "../models/interfaces/iConfig";
 const { Octokit } = require("@octokit/rest");
 
 let config: Config = require('../config.json');
