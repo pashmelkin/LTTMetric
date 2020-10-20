@@ -1,12 +1,9 @@
 import {GetPullRequestsAsync }  from "../utils/GetPullRequests" ;
 import {PullRequest} from "../models/PullRequest";
 
-
-export async function GetPullRequests(owner: string, repo: string, branchPattern = "")  {
+export async function GetPullRequests(owner: string, repo: string, branchPattern = "") {
     let myPulls: PullRequest[] = [];
     let error: string = "";
-
-    console.log("++++++++++++++++++++=real function");
 
     let prs = await GetPullRequestsAsync(owner, repo, "closed", 10);
 
