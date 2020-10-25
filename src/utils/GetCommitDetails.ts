@@ -1,4 +1,4 @@
-import {Config} from "../models/iConfig";
+import {Config} from "../models/interfaces/iConfig";
 const { Octokit } = require("@octokit/rest");
 
 let config: Config = require('../config.json');
@@ -13,6 +13,5 @@ export async function GetCommitDetails (owner: string, repo: string, pull_number
         repo: repo,
         pull_number: pull_number
     });
-    console.log(res.status);
     return res.data;
-};
+}

@@ -1,29 +1,53 @@
 import * as express from 'express';
-import {GetPullRequestNumber} from "../middleware/GetPullRequestNumber";
-import {Config} from "../models/iConfig";
-import {GetDateDifference} from "../middleware/GetDateDifference";
+import Middleware from "../middleware/Middleware";
+import {Config} from "../models/interfaces/iConfig";
+//import {GetDateDifference} from "../Middleware/GetDateDifference";
+import {GetCommitDate} from "../middleware/GetCommitDate";
+import {PRequestsResponse} from "../models/PRequestsResponse";
 
 class GetLTTControlller {
     public path = '/GetLTT';
     public router = express.Router();
+    public config: Config = require('../config.json');
 
     constructor() {
+        //this.router.get(this.path, this.getTimeDiff);
         this.router.get(this.path, this.get);
     }
 
+    getTimeDiff = async (request: express.Request, response: express.Response) => {
+
+        this.get(request, response);
+
+        //let timeDiff  = await GetDateDifference(this.config.owner, "sme-web", prID);
+        //response.send({"time" : timeDiff, "commit": mergeCommitId});
+        response.send("Rework is needed");
+
+    };
     get = async (request: express.Request, response: express.Response) => {
 
         let prID: number;
-        let config: Config = require('../config.json');
+        let result: PRequestsResponse[] = [];
+        let title: string;
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        //let prs = await GetPullRequestNumber("pashmelkin", "vegetableApp", "FixUnitTests2");
-        let {myPulls, error} = await GetPullRequestNumber(config.owner, "payday", "leo-223-serialize-javascript");
+        const branch = (request.query.branch  ?? "nzpr") as string;
+
+        let {myPulls, error} = await Middleware.GetPullRequests(this.config.owner, "sme-web", branch);
+
         if(error != "") {
             response.send(error);
+            return;
         }
+
         prID = myPulls[0].id;
-        let timeDiff  = await GetDateDifference(config.owner, "payday", prID);
-        response.send(timeDiff);
+        title = myPulls[0].title;
+        let mergeCommitId = myPulls[0].merge_commit_sha;
+        let commits  = await GetCommitDate(this.config.owner, "sme-web", prID);
+        result.push(new PRequestsResponse(title, commits, mergeCommitId));
+
+        response.send(result);
 
     }
 
