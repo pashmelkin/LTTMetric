@@ -1,67 +1,61 @@
-# This is an example of a deployment - a declaration of pods.
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "gitmetrics-bff"
-  labels:
-    app: "gitmetrics-bff"
+  name: "git-metrics-bff-deployment"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "gitmetrics-bff"
+      app: "git-metrics-bff"
   template:
     metadata:
       labels:
-        app: "gitmetrics-bff"
-      annotations:
-        update: "gitmetrics-bff"
+        app: "git-metrics-bff"
     spec:
       containers:
-        - image: "599331037720.dkr.ecr.ap-southeast-2.amazonaws.com/lttmetric-bff:latest"
-          name: gitmetrics-bff
+        - image: "nginx:alpine"
+          name: nginx
           ports:
-            - containerPort: 3001
-          resources:
-           limits:
-             memory: "400Mi"
-           requests:
-             memory: "400Mi"
+            - containerPort: 80
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: "git-metrics-bff-service"
+  labels:
+    app: "git-metrics-bff"
+    repo: "git-metrics-bff"
   annotations:
     prometheus.io/scrape: "true"
-  labels:
-    app: "gitmetrics-bff"
-  name: "gitmetrics-bff-service"
 spec:
   ports:
-    - port: 3001
-      targetPort: 3001
+    - port: 80
+      targetPort: 80
   selector:
-    app: "gitmetrics-bff"
+    app: "git-metrics-bff"
 
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
+  name: "git-metrics-bff-ingress"
+  labels:
+    app: "git-metrics-bff"
+    repo: "git-metrics-bff"
   annotations:
     "kubernetes.io/tls-acme": "true"
-  name: "gitmetrics-bff-ingress"
 spec:
   rules:
-    - host: "gitmetrics-bff.svc.platform.myobdev.com"
+    - host: "git-metrics-bff.svc.platform.myobdev.com"
       http:
         paths:
           - backend:
-              serviceName: "gitmetrics-bff-service"
-              servicePort: 5000
+              serviceName: "git-metrics-bff-service"
+              servicePort: 80
             path: /
   tls:
     - hosts:
-        - "gitmetrics-bff.svc.platform.myobdev.com"
-      secretName: "gitmetrics-bff-tls"
+        - "git-metrics-bff.svc.platform.myobdev.com"
+      secretName: "git-metrics-bff-tls"
