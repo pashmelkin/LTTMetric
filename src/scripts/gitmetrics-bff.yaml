@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "git-metrics-bff-deployment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "git-metrics-bff"
+  template:
+    metadata:
+      labels:
+        app: "git-metrics-bff"
+    spec:
+      containers:
+        - image: "599331037720.dkr.ecr.ap-southeast-2.amazonaws.com/lttmetric-bff:latest"
+          name: git-metrics-bff
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 4500
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "git-metrics-bff-service"
+  labels:
+    app: "git-metrics-bff"
+    repo: "git-metrics-bff"
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  ports:
+    - port: 4500
+      targetPort: 4500
+  selector:
+    app: "git-metrics-bff"
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: "git-metrics-bff-ingress"
+  labels:
+    app: "git-metrics-bff"
+    repo: "git-metrics-bff"
+  annotations:
+    "kubernetes.io/tls-acme": "true"
+spec:
+  rules:
+    - host: "git-metrics-bff.svc.platform.myobdev.com"
+      http:
+        paths:
+          - backend:
+              serviceName: "git-metrics-bff-service"
+              servicePort: 4500
+            path: /
+  tls:
+    - hosts:
+        - "git-metrics-bff.svc.platform.myobdev.com"
+      secretName: "git-metrics-bff-tls"
