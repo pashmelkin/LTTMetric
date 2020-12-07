@@ -1,5 +1,6 @@
 {
   "authtoken": "",
   "port": 4500,
-  "owner": "MYOB-Technology"
+  "owner": "MYOB-Technology",
+  "product": "payagent"
 }
