@@ -16,6 +16,13 @@ spec:
       containers:
         - image: "599331037720.dkr.ecr.ap-southeast-2.amazonaws.com/lttmetric-bff:latest"
           name: git-metrics-bff
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 4500
 

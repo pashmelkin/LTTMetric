@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rm -rf dist/*",
     "build": "tsc && cp -rf package.json dist/package.json && cp -rf src/config.json dist/config.json",
-    "prestart": "npm run build",
+    "prestart": "ls dist && npm run build",
     "start": "node dist/server",
     "test": "jest"
   },
