@@ -18,7 +18,7 @@ class GetPRController {
         response.header("Access-Control-Allow-Origin", "*");
         response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        let {myPulls, error} = await Middleware.GetPullRequests(this.config.owner, "payagent", "");
+        let {myPulls, error} = await Middleware.GetPullRequests(this.config.owner, "sme-web", "");
 
         if(error != "") {
             response.send(error);
@@ -26,7 +26,7 @@ class GetPRController {
         }
 
         for (const pr of myPulls) {
-            const dates = await Middleware.GetCommitDate ( this.config.owner , "payagent" , pr.id );
+            const dates = await Middleware.GetCommitDate ( this.config.owner , "sme-web" , pr.id );
             result.push ( new PRequestsResponse ( pr.title, dates , pr.merge_commit_sha ) );
         }
 
